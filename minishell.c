@@ -6,13 +6,11 @@
 /*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:26:48 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/24 17:07:31 by ade-temm         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:34:21 by ade-temm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/minishell.h"
-
-char	**g_env = NULL;
 
 void	interpret_command(char *command)
 {
@@ -24,9 +22,14 @@ void	interpret_command(char *command)
 int		main(int ac, char **av, char **envp)
 {
 	char	*command;
+	t_env	*env;
 
+	(void)ac;
+	(void)av;
 	using_history();
-	g_env = envp;
+	env = (t_env *)malloc(sizeof(t_env));
+	env->g_env = envp;
+	printf("%s\n", *(env->g_env));
 	while (1)
 	{
 		command = readline("Minishell $> ");
