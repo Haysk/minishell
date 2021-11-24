@@ -3,23 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adylewsk <adylewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:26:48 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/24 11:29:53 by adylewsk         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:07:31 by ade-temm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "headers/minishell.h"
 
 char	**g_env = NULL;
 
-int	main(int argc, char **argv, char **envp)
+void	interpret_command(char *command)
 {
-	(void)argc;
-	(void)argv;
+	printf("la commande : %s\n", command);
+}
+ //clear history : rl_clear_history();
+ //print l'env : printf("%s\n", *g_env);
+
+int		main(int ac, char **av, char **envp)
+{
+	char	*command;
+
+	using_history();
 	g_env = envp;
-	printf("%s\n", *g_env);
-	return (0);
+	while (1)
+	{
+		command = readline("Minishell $> ");
+		add_history(command);
+		interpret_command(command);
+	}
+	free(command);
 }
