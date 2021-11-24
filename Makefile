@@ -26,7 +26,7 @@ $(DIR_BUILD):
 	mkdir -p $@
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -L libft -lft
+	$(CC) $(CFLAGS) -lreadline $^ -o $@ -L libft -lft
 
 $(LIBFT):
 	make -C libft/
