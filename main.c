@@ -6,7 +6,7 @@
 /*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:26:48 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/24 17:35:19 by ade-temm         ###   ########.fr       */
+/*   Updated: 2021/11/25 20:10:58 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ void	interpret_command(char *command)
 int		main(int ac, char **av, char **envp)
 {
 	char	*command;
-	t_env	*env;
+	t_datas	*datas;
 
 	(void)ac;
 	(void)av;
 	using_history();
-	env = (t_env *)malloc(sizeof(t_env));
-	env->g_env = envp;
+	datas = (t_datas *)malloc(sizeof(t_datas));
+	datas->env = envp;
 	while (1)
 	{
 		command = readline("Minishell $> ");
 		add_history(command);
 		interpret_command(command);
 	}
+	free(datas);
 	free(command);
 }

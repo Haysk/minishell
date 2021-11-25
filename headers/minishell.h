@@ -6,7 +6,7 @@
 /*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 10:18:55 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/24 17:32:29 by ade-temm         ###   ########.fr       */
+/*   Updated: 2021/11/25 21:13:56 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_env
+typedef struct s_datas
 {
-	char	**g_env;
-}t_env;
+	char	**env;
+}				t_datas;
 
-extern char	**g_env;
  /*
  * error.c 
  */
@@ -41,5 +40,10 @@ void	myerror(int error, char *str);
 * files.c
 */
 char	*check_exe(char *file, char **envp);
+
+/*
+* builtin.c
+*/
+
 
 #endif

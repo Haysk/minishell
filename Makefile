@@ -14,7 +14,7 @@ LIBFT = libft/libft.a
 DIR_BUILD = build/
 INC = -I includes -I libft
 
-SRCS = minishell.c pipex.c \
+SRCS = main.c pipex.c \
 	   error.c	\
 	   files.c
 
