@@ -6,11 +6,11 @@
 /*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:26:48 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/26 07:12:21 by ade-temm         ###   ########.fr       */
+/*   Updated: 2021/11/30 13:36:04 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/minishell.h"
+#include "minishell.h"
 
 void	interpret_command(char *command)
 {
@@ -28,8 +28,20 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	using_history();
 	datas = (t_datas *)malloc(sizeof(t_datas));
-	datas->env = envp;
-	printf("%s\n", relative_path("", datas->env));
+	datas->env = envp_to_alloc_tab(envp);
+	ft_puttab(datas->env);
+	unset(datas->env, get_envindex(datas->env, "PATH"));
+	ft_puttab(datas->env);
+	unset(datas->env, get_envindex(datas->env, "LESS"));
+	ft_puttab(datas->env);
+	//datas = manage_env(datas);
+	/* Builtin ENV
+	while(tmp->next)
+	{
+		printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
+	}
+	*/
 	while (1)
 	{
 		command = readline("Minishell $> ");

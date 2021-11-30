@@ -12,11 +12,9 @@ LIBFT = libft/libft.a
 #DIRECTORY
 
 DIR_BUILD = build/
-INC = -I includes -I libft
+INC = -I libft
 
-SRCS = main.c pipex.c \
-	   error.c	\
-	   files.c
+SRCS = main.c manage_env.c utils.c \
 
 OBJS = $(addprefix $(DIR_BUILD), $(SRCS:.c=.o))
 
@@ -26,7 +24,7 @@ $(DIR_BUILD):
 	mkdir -p $@
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) -lreadline $^ -o $@ -L libft -lft
+	$(CC) $(CFLAGS) $^ -o $@ -L libft -lft -lreadline
 
 $(LIBFT):
 	make -C libft/
