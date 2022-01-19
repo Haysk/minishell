@@ -6,7 +6,7 @@
 /*   By: adylewsk <adylewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:46:10 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/06/28 19:10:50 by adylewsk         ###   ########.fr       */
+/*   Updated: 2022/01/18 21:02:32 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <limits.h>
 # include "macro.h"
 
 /* Len */
@@ -33,10 +36,13 @@ int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 int		ft_strisdigit(char *str);
 int		ft_tabisdigit(char **tab);
+int		ft_strsupint(char *str);
+
+/* Char */
+int		ft_tolower(int c);
+int		ft_toupper(int c);
 
 /* Str */
-char	**ft_split(char const *s, char c);
-char	**ft_splits(char const *str, char *cutter);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strcpy(char *dest, char *src);
@@ -51,6 +57,11 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
+/* Tab */
+char	**ft_split(char const *s, char c);
+char	**ft_splits(char const *str, char *cutter);
+char	**ft_add_in_tab(char **tab, char *str);
+
 /* Memory */
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
@@ -58,10 +69,6 @@ void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memset(void *s, int c, size_t n);
-
-/* Char */
-int		ft_tolower(int c);
-int		ft_toupper(int c);
 
 /* Calculate */
 long	ft_pow(long nbr, long exp);

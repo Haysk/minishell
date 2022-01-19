@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adylewsk <adylewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 17:17:34 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/24 11:50:53 by adylewsk         ###   ########.fr       */
+/*   Created: 2022/01/17 21:08:00 by adylewsk          #+#    #+#             */
+/*   Updated: 2022/01/17 21:08:03 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/minishell.h"
+#include "minishell.h"
 
 char	*file_to_path(char *file, char *path)
 {
@@ -88,16 +88,13 @@ char	*absolute_path(char *file, char **envp)
 	}
 	if (paths)
 		ft_freetab(paths);
+	if (path)
+		free(path);
 	return (NULL);
 }
 
 char	*check_exe(char *file, char **envp)
 {
-	int		i;
-	char	*path;
-
-	i = 0;
-	path = NULL;
 	if (*file == '/')
 		return (ft_strdup(file));
 	else if (ft_strchr(file, '/'))

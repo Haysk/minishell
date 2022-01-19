@@ -1,35 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adylewsk <adylewsk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/17 21:10:45 by adylewsk          #+#    #+#             */
+/*   Updated: 2022/01/18 15:02:09 by adylewsk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int     get_size_name(char  *env)
+char	*get_name(char *env)
 {
-    int     i;
+	int		i;
+	int		j;
+	char	*name;
 
-    i = 0;
-    while(env[i])
-    {
-        if(env[i] == '=')
-            return(i);
-        i++;
-    }
-    return (0);
-}
-
-char    *get_name(char *env)
-{
-    int     i;
-    int     j;
-    char    *name;
-
-    i = get_size_name(env);
-    j = 0;
-    name = malloc(sizeof(char) * i);
-    name[i - 1] = 0;
-    while(j < i)
-    {
-        name[j] = env[j];
-        j++;
-    }
-    return (name);
+	i = get_size_name(env);
+	j = 0;
+	name = ft_calloc(i, sizeof(char));
+	while (j < i)
+	{
+		name[j] = env[j];
+		j++;
+	}
+	return (name);
 }
 
 char	*get_value(char *env)
@@ -40,15 +37,14 @@ char	*get_value(char *env)
 
 	j = 0;
 	i = 0;
-	while(env[i] != '=')
+	while (env[i] && env[i] != '=')
 		i++;
 	i++;
-	while(env[i + j])
+	while (env[i + j])
 		j++;
-	value = malloc(sizeof(char) * j);
-	value[j - 1] = 0;
+	value = ft_calloc(j, sizeof(char));
 	j = 0;
-	while(env[i + j])
+	while (env[i + j])
 	{
 		value[j] = env[i + j];
 		j++;
@@ -65,119 +61,43 @@ int	get_envindex(char **env, char *var)
 	len_var = ft_strlen(var);
 	while (env[i])
 	{
-		if (!ft_memcmp(env[i], var, len_var) && (env[i][len_var] == '='))
-				return (i);
+		if (!ft_memcmp(env[i], var, len_var)
+			&& (env[i][len_var] == '='))
+			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-char	**unset(char **env, int index)
-{
-	char	*tmp;
-	if (index < 0)
-		return (env);
-	free(env[index]);
-	env[index] = NULL;
-	index++;
-	while (env[index])
-	{
-		tmp = env[index - 1];
-		env[index - 1] = env[index];
-		env[index] = tmp;
-		index++;
-	}
-	return (env);
-}
-
-char	**envp_to_alloc_tab(char **envp)
+char	**envp_to_alloc_tab(char **envp, int *len_env)
 {
 	char	**new;
-	int		len_envp;
 	int		i;
 
-	len_envp = ft_tablen(envp);
-	new = ft_calloc(len_envp + 1, sizeof(char *));
+	*len_env = ft_tablen(envp);
+	new = ft_calloc(*len_env + 1, sizeof(char *));
 	i = 0;
-	while (i < len_envp)
+	while (i < *len_env)
 	{
-			new[i] = ft_calloc(ft_strlen(envp[i]) + 1, sizeof(char));
-			ft_strcpy(new[i], envp[i]);
-			i++;
+		new[i] = ft_strdup(envp[i]);
+		i++;
 	}
 	return (new);
 }
 
+int	change_env_value(char **env, char *var)
+{
+	char	*name;
+	int		index;
 
-
-
-
-//t_env	*create_new(char *name, char *value)
-//{
-//	t_env	*new;
-//
-//	new = malloc(sizeof(t_env));
-//	new->name = name;
-//	new->value = value;
-//	new->previous = NULL;
-//	new->next = NULL;
-//	return (new);
-//}
-//
-//void	push_last(t_ptr_env *list, t_env *new)
-//{
-//	if (!new)
-//		return;
-//	new->next = NULL;
-//	new->previous = list->last;
-//	if (list->last)
-//		list->last->next = new;
-//	else
-//		list->first = new;
-//	list->last = new;
-//}
-//
-//void	init_list(t_ptr_env *list)
-//{
-//	list->first = NULL;
-//	list->last = NULL;
-//}
-//
-//t_datas	*manage_env(t_datas *datas)
-//{
-//	char		**copy;
-//	t_env		*new;
-//	
-//	t_env		*tmp;
-//	init_list(&datas->env);
-//	copy = datas->base_env;
-//	while(*copy)
-//	{
-//		new = create_new(get_name(*copy), get_value(*copy));
-//		push_last(&datas->env, new);
-//		copy++;
-//	}
-//	tmp = datas->env.first;
-//	while (tmp)
-//	{
-//		//printf("name : %s=%s\n", tmp->name, tmp->value);
-//		tmp = tmp->next;
-//	}
-//
-//
-//	// list = (t_env *)malloc(sizeof(t_env));
-//	// copy = datas->base_env;
-//	// tmp = NULL;
-//    // while (*copy)
-//    // {
-//	// 	if ()
-//	// 	//printf("list->previous [%p], list->next [%p]\n", list->previous, list->next);
-//    //     copy++;
-//    // }
-//	// while (list->previous != NULL)
-//	// {
-//	// 	list = list->previous;
-//	// 	//printf("%p\n", list->previous);
-//	// }
-//	return (datas);
-//}
+	name = get_name(var);
+	index = get_envindex(env, name);
+	free(name);
+	if (index != -1)
+	{
+		free(env[index]);
+		env[index] = ft_strdup(var);
+		return (1);
+	}
+	return (0);
+}

@@ -3,51 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-temm <ade-temm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adylewsk <adylewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 11:26:48 by adylewsk          #+#    #+#             */
-/*   Updated: 2021/11/30 13:36:04 by adylewsk         ###   ########.fr       */
+/*   Created: 2022/01/17 21:12:56 by adylewsk          #+#    #+#             */
+/*   Updated: 2022/01/18 22:31:44 by adylewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	interpret_command(char *command)
-{
-	printf("la commande : %s\n", command);
-}
- //clear history : rl_clear_history();
- //print l'env : printf("%s\n", *(env->g_env));
+int	g_variable = 0;
 
-int		main(int ac, char **av, char **envp)
+int	start(char **envp)
 {
-	char	*command;
+	int		quit;
 	t_datas	*datas;
 
-	(void)ac;
-	(void)av;
+	quit = 0;
 	using_history();
 	datas = (t_datas *)malloc(sizeof(t_datas));
-	datas->env = envp_to_alloc_tab(envp);
-	ft_puttab(datas->env);
-	unset(datas->env, get_envindex(datas->env, "PATH"));
-	ft_puttab(datas->env);
-	unset(datas->env, get_envindex(datas->env, "LESS"));
-	ft_puttab(datas->env);
-	//datas = manage_env(datas);
-	/* Builtin ENV
-	while(tmp->next)
+	datas->command = NULL;
+	datas->env = envp_to_alloc_tab(envp, &datas->len_env);
+	while (!quit)
 	{
-		printf("%s=%s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
+		catch_sig();
+		datas->command = readline("Minishell $> ");
+		quit = (!datas->command);
+		if (!quit && datas->command && *datas->command)
+		{
+			add_history(datas->command);
+			if (interpret_command(datas))
+				free_tree(datas->head);
+		}
+		free(datas->command);
 	}
-	*/
-	while (1)
-	{
-		command = readline("Minishell $> ");
-		add_history(command);
-		interpret_command(command);
-	}
+	ft_freetab(datas->env);
 	free(datas);
-	free(command);
+	printf("exit\n");
+	return (1);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Minishell: too many arguments\n", 2);
+		return (0);
+	}
+	return (start(envp));
 }

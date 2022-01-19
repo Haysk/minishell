@@ -3,7 +3,7 @@ NAME = minishell
 #COMPILE
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 #LIBFT
 
@@ -14,7 +14,10 @@ LIBFT = libft/libft.a
 DIR_BUILD = build/
 INC = -I libft
 
-SRCS = main.c manage_env.c utils.c \
+SRCS = main.c manage_env.c builtins.c builtins2.c create_tree.c utils_tree.c \
+	   lexer.c files.c interpret.c is_execve.c signal.c signal_heredoc.c \
+	   exit.c utils.c here_doc.c redir_list.c exec_tree.c\
+	   parsing.c dollars.c redir.c more_utils.c more_utils2.c more_utils3.c
 
 OBJS = $(addprefix $(DIR_BUILD), $(SRCS:.c=.o))
 
